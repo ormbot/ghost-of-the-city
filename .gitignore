@@ -1,0 +1,21 @@
+# Secrets — never commit the real config
+openclaw.json
+*.pem
+*.key
+.htpasswd
+
+# Local archive / private backup
+backup/
+*.tar.gz
+
+# Raw session logs (contain full conversation transcripts)
+*.jsonl
+*.jsonl.reset.*
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc

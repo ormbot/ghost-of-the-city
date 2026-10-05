@@ -1,0 +1,162 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.8",
+    "lastTouchedAt": "2026-03-14T18:43:45.468Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-03-14T18:43:45.451Z",
+    "lastRunVersion": "2026.3.8",
+    "lastRunCommand": "configure",
+    "lastRunMode": "local"
+  },
+  "browser": {
+    "enabled": false
+  },
+  "auth": {
+    "profiles": {
+      "anthropic:default": {
+        "provider": "anthropic",
+        "mode": "api_key"
+      }
+    }
+  },
+  "models": {
+    "providers": {
+      "bedrock": {
+        "baseUrl": "https://bedrock-runtime.eu-west-2.amazonaws.com",
+        "apiKey": "dummy-key-will-use-iam",
+        "api": "bedrock-converse-stream",
+        "authHeader": false,
+        "models": [
+          {
+            "id": "global.anthropic.claude-sonnet-4-6",
+            "name": "Claude Sonnet 4.6",
+            "api": "bedrock-converse-stream",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      }
+    },
+    "bedrockDiscovery": {
+      "enabled": false,
+      "region": "eu-west-2"
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "anthropic/claude-sonnet-4-6",
+        "fallbacks": [
+          "custom-1"
+        ]
+      },
+      "models": {
+        "custom-1": {
+          "alias": "bedrock/global.anthropic.claude-sonnet-4-6",
+          "params": {
+            "cacheRetention": "short"
+          }
+        },
+        "anthropic/claude-sonnet-4-6": {
+          "alias": "sonnet",
+          "params": {
+            "cacheRetention": "short"
+          }
+        }
+      },
+      "workspace": "/home/ubuntu/.openclaw/workspace",
+      "contextPruning": {
+        "mode": "cache-ttl",
+        "ttl": "1h"
+      },
+      "compaction": {
+        "mode": "safeguard"
+      },
+      "heartbeat": {
+        "every": "30m"
+      },
+      "sandbox": {
+        "mode": "all",
+        "workspaceAccess": "rw",
+        "scope": "session",
+        "docker": {
+          "network": "bridge",
+          "user": "1000:1000",
+          "env": {
+            "SSL_CERT_FILE": "/workspace/cacert.pem",
+            "AWS_CA_BUNDLE": "/workspace/cacert.pem",
+            "CURL_CA_BUNDLE": "/workspace/cacert.pem"
+          },
+          "binds": []
+        }
+      }
+    },
+    "list": [
+      {
+        "id": "main"
+      },
+      {
+        "id": "ghost-city",
+        "name": "ghost-city",
+        "workspace": "/home/ubuntu/.openclaw/workspace/ghost-city",
+        "agentDir": "/home/ubuntu/.openclaw/agents/ghost-city/agent",
+        "model": "anthropic/claude-sonnet-4-6"
+      }
+    ]
+  },
+  "tools": {
+    "profile": "coding",
+    "web": {
+      "search": {
+        "enabled": true,
+        "provider": "brave",
+        "apiKey": "YOUR_BRAVE_SEARCH_API_KEY"
+      }
+    }
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "lan",
+    "customBindHost": "ghostcity.example.com",
+    "controlUi": {
+      "allowedOrigins": [
+        "http://localhost:18789",
+        "http://127.0.0.1:18789"
+      ],
+      "dangerouslyAllowHostHeaderOriginFallback": true,
+      "allowInsecureAuth": true
+    },
+    "auth": {
+      "mode": "token",
+      "token": "YOUR_GATEWAY_TOKEN"
+    },
+    "trustedProxies": [
+      "127.0.0.1"
+    ],
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    }
+  }
+}
